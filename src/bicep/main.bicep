@@ -10,4 +10,8 @@ resource storageaccount 'Microsoft.Storage/storageAccounts@2022-09-01' = {
     name: skuname
   }
   kind: stgkind
+  properties: {
+    minimumTlsVersion: 'TLS1_2'
+    allowBlobPublicAccess: true
+  }
 }
