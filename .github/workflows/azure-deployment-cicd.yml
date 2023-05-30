@@ -29,14 +29,16 @@ jobs:
           # Paste output of `az ad sp create-for-rbac` as value of secret variable: AZURE_CREDENTIALS
           creds: ${{ secrets.AZURE_SPN_CREDENTIAL }}
           # ClientId of the Azure Service principal created.
-
-
-      - name: az bicep deploy
+      - name: Lint
+        working-directory: '${{github.workspace}}/src/bicep'
+        run: |
+            az bicep build --file ./main.bicep
+      - name: Validate
         working-directory: '${{github.workspace}}/src/bicep'
         run: |
           az group create --name rg-demo-bicep --location centralindia
           az deployment group create --what-if --resource-group   rg-demo-bicep --template-file ./main.bicep
-  
+      
   deploy:
     
     name: 'Bicep Deployment'
