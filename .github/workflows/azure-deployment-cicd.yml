@@ -35,4 +35,28 @@ jobs:
         working-directory: '${{github.workspace}}/src/bicep'
         run: |
           az group create --name rg-demo-bicep --location centralindia
+          az deployment group create --what-if --resource-group   rg-demo-bicep --template-file ./main.bicep
+  
+  deploy:
+    
+    name: 'Bicep Deployment'
+    # The type of runner that the job will run on
+    runs-on: windows-latest
+    needs: [build]
+    environment: dev
+    steps:
+
+      - uses: actions/checkout@v2
+      - name: Azure Login
+        uses: Azure/login@v1.4.6
+        with:
+          # Paste output of `az ad sp create-for-rbac` as value of secret variable: AZURE_CREDENTIALS
+          creds: ${{ secrets.AZURE_SPN_CREDENTIAL }}
+          # ClientId of the Azure Service principal created.
+
+
+      - name: az bicep deploy
+        working-directory: '${{github.workspace}}/src/bicep'
+        run: |
+          az group create --name rg-demo-bicep --location centralindia
           az deployment group create --resource-group   rg-demo-bicep --template-file ./main.bicep
