@@ -2,6 +2,12 @@ param applicationName string = 'demo'
 param environment string = 'de'
 param subscriptionID string = '001f528c-7b4f-45f0-b4c5-50381e79f4cc'
 
+param tags object = {
+  ApplicationOwner: 'Ravi Teja'
+  Env2: 'Non-prod'
+  Category: 'Bicep IAC GIT testing'
+}
+
 @description('Storage SKU')
 param storageSkuName string = 'Standard_LRS'
 
@@ -20,6 +26,7 @@ module resourcegroup '../../modules/rg/rg.bicep' = {
     applicationName: applicationName
     environment: environment
     location: location
+    tags: tags
   }
 }
 

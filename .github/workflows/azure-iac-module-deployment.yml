@@ -14,13 +14,15 @@ on:
   workflow_dispatch:
     inputs:
         environment:
-          description: "Environment Name"
-          default: "de"
-          type: "string"
+          description: 'Environment Name'
+          default: 'de'
+          type: 'string'
+          required: true
         applicationName:
-          description: "Application Name"
-          default: "demo"
-          type: "string"
+          description: 'Application Name'
+          default: 'demo'
+          type: 'string'
+          required: true
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
@@ -72,5 +74,5 @@ jobs:
       - name: az bicep deploy
         working-directory: '${{github.workspace}}/src/bicep'
         run: |
-          az group create --name rg-${{ inputs.environment }}-${{ inputs.applicationName }} --location centralindia
-          az deployment group create --resource-group rg-${{ inputs.environment }}-${{ inputs.applicationName }} --template-file ./main.bicep
+          az group create --name rg-${{ github.event.inputs.environment }}-${{ github.event.inputs.applicationName }} --location centralindia
+          az deployment group create --resource-group rg-${{ github.event.inputs.environment }}-${{ github.event.inputs.applicationName }} --template-file ./main.bicep

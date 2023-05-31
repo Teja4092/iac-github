@@ -23,10 +23,16 @@ param storageSkuName string
 @description('Storage Kind')
 param stgkind string = 'StorageV2'
 
+param tags object = {
+  ApplicationOwner: 'Ravi Teja'
+  Env2: 'Non-prod'
+  Category: 'Bicep IAC GIT testing'
+}
 
 resource storageaccount 'Microsoft.Storage/storageAccounts@2022-09-01' = {
   name: storageName
   location: location
+  tags: tags
   sku: {
     name: storageSkuName
   }
