@@ -19,9 +19,10 @@ param storageName string = 'stbicepcac'
 
 param location string = 'centralindia'
 
+
 module resourcegroup '../../modules/rg/rg.bicep' = {
   scope: subscription(subscriptionID)
-  name: 'rg-${applicationName}-${environment}'
+  name: 'rg--demo'
   params: {
     applicationName: applicationName
     environment: environment
@@ -30,27 +31,12 @@ module resourcegroup '../../modules/rg/rg.bicep' = {
   }
 }
 
-
 module storgeaccount '../../modules/storage/st.bicep' = {
-  name:storageName
+  name: storageName
   params: {
-    storageSkuName :storageSkuName
-    stgkind : stgkind
-    location :location
+    storageSkuName: storageSkuName
+    stgkind: stgkind
+    location: location
   }
   scope: resourceGroup()
 }
-
-
-// resource storageaccount 'Microsoft.Storage/storageAccounts@2022-09-01' = {
-//   name: storageName
-//   location: location
-//   sku: {
-//     name: skuname
-//   }
-//   kind: stgkind
-//   properties: {
-//     minimumTlsVersion: 'TLS1_2'
-//     allowBlobPublicAccess: true
-//   }
-// }
