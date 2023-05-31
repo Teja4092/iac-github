@@ -1,5 +1,3 @@
-param applicationName string = 'demo'
-param environment string = 'de'
 param subscriptionID string = '001f528c-7b4f-45f0-b4c5-50381e79f4cc'
 
 param tags object = {
@@ -24,8 +22,6 @@ module resourcegroup '../../modules/rg/rg.bicep' = {
   scope: subscription(subscriptionID)
   name: 'rg--demo'
   params: {
-    applicationName: applicationName
-    environment: environment
     location: location
     tags: tags
   }

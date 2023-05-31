@@ -1,8 +1,6 @@
 targetScope = 'subscription'
 
 param location string = 'centralindia'
-param applicationName string
-param environment string
 param tags object = {
   ApplicationOwner: 'Ravi Teja'
   Env2: 'Non-prod'
