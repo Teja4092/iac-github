@@ -8,7 +8,7 @@ on:
   workflow_dispatch:
     # Inputs the workflow accepts.
     inputs:
-      env:
+      environment:
         # Friendly description to be shown in the UI instead of 'name'
         description: 'Environment Name'
         # Default value if no value is explicitly provided
@@ -42,8 +42,8 @@ jobs:
       # - name: Validate
       #   working-directory: '${{github.workspace}}/src/bicep'
       #   run: |
-      #     az group create --what-if --name rg-${{inputs.env}}-demo --location centralindia
-      #     az deployment group create --what-if --resource-group   rg-${{inputs.env}}-demo --template-file ./main.bicep
+      #     az group create --what-if --name rg-${{inputs.environment}}-demo --location centralindia
+      #     az deployment group create --what-if --resource-group   rg-${{inputs.environment}}-demo --template-file ./main.bicep
       # Uploading build Artifact
       - name: Upload a Build Artifact
         uses: actions/upload-artifact@v3.1.2
@@ -75,11 +75,12 @@ jobs:
           # Paste output of `az ad sp create-for-rbac` as value of secret variable: AZURE_CREDENTIALS
           creds: ${{ secrets.AZURE_SPN_CREDENTIAL }}
           # ClientId of the Azure Service principal created.
-          # az group create --name rg-${{inputs.env}}-demo --location centralindia
+          # az group create --name rg-${{inputs.environment}}-demo --location centralindia
       - name: az bicep deploy
         working-directory: '${{github.workspace}}/src/bicep'
         run: |
-          az deployment group create --resource-group rg-${{inputs.env}}-demo --template-file ./main.bicep
+          az group create --name rg-${{inputs.environment}}-demo --location centralindia
+          az deployment group create --resource-group rg-${{inputs.environment}}-demo --template-file ./main.bicep
   Test:
     
     name: 'Test'
@@ -100,11 +101,12 @@ jobs:
           # Paste output of `az ad sp create-for-rbac` as value of secret variable: AZURE_CREDENTIALS
           creds: ${{ secrets.AZURE_SPN_CREDENTIAL }}
           # ClientId of the Azure Service principal created.
-          # az group create --name rg-${{inputs.env}}-demo --location centralindia
+          # az group create --name rg-${{inputs.environment}}-demo --location centralindia
       - name: az bicep deploy
         working-directory: '${{github.workspace}}/src/bicep'
         run: |
-          az deployment group create --resource-group rg-${{inputs.env}}-demo --template-file ./main.bicep
+          az group create --name rg-${{inputs.environment}}-demo --location centralindia
+          az deployment group create --resource-group rg-${{inputs.environment}}-demo --template-file ./main.bicep
   Prod:
     
     name: 'Test'
@@ -125,9 +127,10 @@ jobs:
           # Paste output of `az ad sp create-for-rbac` as value of secret variable: AZURE_CREDENTIALS
           creds: ${{ secrets.AZURE_SPN_CREDENTIAL }}
           # ClientId of the Azure Service principal created.
-          # az group create --name rg-${{inputs.env}}-demo --location centralindia
+          # az group create --name rg-${{inputs.environment}}-demo --location centralindia
       - name: az bicep deploy
         working-directory: '${{github.workspace}}/src/bicep'
         run: |
-          az deployment group create --resource-group rg-${{inputs.env}}-demo --template-file ./main.bicep
+          az group create --name rg-${{inputs.environment}}-demo --location centralindia
+          az deployment group create --resource-group rg-${{inputs.environment}}-demo --template-file ./main.bicep
 

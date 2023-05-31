@@ -16,14 +16,15 @@ param stgkind string = 'StorageV2'
 param storageName string = 'stbicepcac'
 
 param location string = 'centralindia'
-
+param environment string
 
 module resourcegroup '../../modules/rg/rg.bicep' = {
   scope: subscription(subscriptionID)
-  name: 'rg--demo'
+  name: 'rg-${environment}-cac'
   params: {
     location: location
     tags: tags
+    environment: environment
   }
 }
 
