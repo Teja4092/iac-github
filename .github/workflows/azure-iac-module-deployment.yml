@@ -72,4 +72,5 @@ jobs:
       - name: az bicep deploy
         working-directory: '${{github.workspace}}/src/bicep'
         run: |
-          az deployment group create --resource-group rg-de-demo --template-file ./main.bicep
+          az group create --name rg-${{ inputs.environment }}-${{ inputs.applicationName }} --location centralindia
+          az deployment group create --resource-group rg-${{ inputs.environment }}-${{ inputs.applicationName }} --template-file ./main.bicep
