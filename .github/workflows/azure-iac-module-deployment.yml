@@ -42,11 +42,11 @@ jobs:
         working-directory: '${{github.workspace}}/src/bicep'
         run: |
             az bicep build --file ./main.bicep
-      - name: Validate
-        working-directory: '${{github.workspace}}/src/bicep'
-        run: |
-          az group create --what-if --name rg-demo-bicep --location centralindia
-          az deployment group create --what-if --resource-group   rg-demo-bicep --template-file ./main.bicep
+    #   - name: Validate
+    #     working-directory: '${{github.workspace}}/src/bicep'
+    #     run: |
+    #       az group create --what-if --name rg-demo-bicep --location centralindia
+    #       az deployment group create --what-if --resource-group   rg-demo-bicep --template-file ./main.bicep
       
   deploy:
     
