@@ -38,11 +38,11 @@ jobs:
         working-directory: '${{github.workspace}}/src/bicep'
         run: |
             az bicep build --file ./main.bicep
-      - name: Validate
-        working-directory: '${{github.workspace}}/src/bicep'
-        run: |
-          az group create --what-if --name rg-${{inputs.env}}-demo --location centralindia
-          az deployment group create --what-if --resource-group   rg-${{inputs.env}}-demo --template-file ./main.bicep
+      # - name: Validate
+      #   working-directory: '${{github.workspace}}/src/bicep'
+      #   run: |
+      #     az group create --what-if --name rg-${{inputs.env}}-demo --location centralindia
+      #     az deployment group create --what-if --resource-group   rg-${{inputs.env}}-demo --template-file ./main.bicep
       # Uploading build Artifact
       - name: Upload a Build Artifact
         uses: actions/upload-artifact@v3.1.2

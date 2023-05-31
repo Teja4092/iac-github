@@ -24,7 +24,6 @@ module resourcegroup '../../modules/rg/rg.bicep' = {
   params: {
     location: location
     tags: tags
-    environment: environment
   }
 }
 
