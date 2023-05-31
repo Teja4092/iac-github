@@ -53,3 +53,40 @@ jobs:
         run: |
           az group create --what-if --name rg-${{inputs.env}}-demo --location centralindia
           az deployment group create --what-if --resource-group   rg-${{inputs.env}}-demo --template-file ./main.bicep
+      # Uploading build Artifact
+      - name: Upload a Build Artifact
+        uses: actions/upload-artifact@v3.1.2
+        with:
+          # Artifact name
+          name: drop # optional, default is artifact
+          # A file, directory or wildcard pattern that describes what to upload
+          path: '${{github.workspace}}/*'
+          # The desired behavior if no files are found using the provided path.
+  deploy:
+    
+    name: 'Dev_release'
+    # The type of runner that the job will run on
+    runs-on: windows-latest
+    needs: [build]
+    environment:
+        name: dev
+    steps:
+      - name: Download a Build Artifact
+        uses: actions/download-artifact@v2.1.1
+        with:
+          # Artifact name
+          name: drop # optional
+      - name: Test Artifact download
+        run: ls -R
+      - name: Azure Login
+        uses: Azure/login@v1.4.6
+        with:
+          # Paste output of `az ad sp create-for-rbac` as value of secret variable: AZURE_CREDENTIALS
+          creds: ${{ secrets.AZURE_SPN_CREDENTIAL }}
+          # ClientId of the Azure Service principal created.
+          # az group create --name rg-${{inputs.env}}-demo --location centralindia
+      - name: az bicep deploy
+        working-directory: '${{github.workspace}}/src/bicep'
+        run: |
+          az deployment group create --resource-group rg-${{inputs.env}}-demo --template-file ./main.bicep
+
