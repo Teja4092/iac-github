@@ -20,7 +20,7 @@ param environment string
 
 module resourcegroup '../../modules/rg/rg.bicep' = {
   scope: subscription(subscriptionID)
-  name: 'rg-${environment}-cac'
+  name: 'rg--cac'
   params: {
     location: location
     tags: tags
