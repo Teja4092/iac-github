@@ -65,8 +65,8 @@ jobs:
         with:
           # Artifact name
           name: drop # optional
-          # Destination path
-          path: '${{github.workspace}}/*'
+      - name: Test Artifact download
+        run: ls -R
       - name: Azure Login
         uses: Azure/login@v1.4.6
         with:
