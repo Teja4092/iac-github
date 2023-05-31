@@ -31,7 +31,7 @@ module storgeaccount '../../modules/storage/st.bicep' = {
     stgkind : stgkind
     location :location
   }
-  scope: resourcegroup
+  scope: resourceGroup()
 }
 
 
