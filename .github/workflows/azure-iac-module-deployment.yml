@@ -59,6 +59,8 @@ jobs:
     # The type of runner that the job will run on
     runs-on: windows-latest
     needs: [build]
+    environment:
+        name: ${{inputs.env}}
     steps:
       - name: Download a Build Artifact
         uses: actions/download-artifact@v2.1.1
