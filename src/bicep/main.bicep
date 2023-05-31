@@ -1,3 +1,6 @@
+param applicationName string = 'demo'
+param environment string = 'de'
+
 @description('Storage SKU')
 param storageSkuName string = 'Standard_LRS'
 
@@ -8,6 +11,16 @@ param stgkind string = 'StorageV2'
 param storageName string = 'stbicepcac'
 
 param location string = 'centralindia'
+
+module resourcegroup '../../modules/rg/rg.bicep' = {
+  scope: subscription()
+  name: 'rg-${applicationName}-${environment}'
+  params: {
+    applicationName: applicationName
+    environment: environment
+    location: location
+  }
+}
 
 
 module storgeaccount '../../modules/storage/st.bicep' = {

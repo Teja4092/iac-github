@@ -1,0 +1,71 @@
+# This is a basic workflow to help you get started with Actions
+
+name: CI
+
+# Controls when the workflow will run
+on:
+  # Triggers the workflow on push or pull request events but only for the "main" branch
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+    inputs:
+        environment:
+          description: "Environment Name"
+          default: "de"
+          type: "string"
+        applicationName:
+          description: "Application Name"
+          default: "demo"
+          type: "string"
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  # This workflow contains a single job called "build"
+  build:
+    # The type of runner that the job will run on
+    runs-on: windows-latest
+    name: 'Build'
+    steps:
+
+      - uses: actions/checkout@v2
+      - name: Azure Login
+        uses: Azure/login@v1.4.6
+        with:
+          # Paste output of `az ad sp create-for-rbac` as value of secret variable: AZURE_CREDENTIALS
+          creds: ${{ secrets.AZURE_SPN_CREDENTIAL }}
+          # ClientId of the Azure Service principal created.
+      - name: Lint
+        working-directory: '${{github.workspace}}/src/bicep'
+        run: |
+            az bicep build --file ./main.bicep
+      - name: Validate
+        working-directory: '${{github.workspace}}/src/bicep'
+        run: |
+          az group create --what-if --name rg-demo-bicep --location centralindia
+          az deployment group create --what-if --resource-group   rg-demo-bicep --template-file ./main.bicep
+      
+  deploy:
+    
+    name: 'Bicep Deployment'
+    # The type of runner that the job will run on
+    runs-on: windows-latest
+    needs: [build]
+    steps:
+
+      - uses: actions/checkout@v2
+      - name: Azure Login
+        uses: Azure/login@v1.4.6
+        with:
+          # Paste output of `az ad sp create-for-rbac` as value of secret variable: AZURE_CREDENTIALS
+          creds: ${{ secrets.AZURE_SPN_CREDENTIAL }}
+          # ClientId of the Azure Service principal created.
+
+
+      - name: az bicep deploy
+        working-directory: '${{github.workspace}}/src/bicep'
+        run: |
+          az deployment group create --resource-group   rg-${{ inputs.environment }}-${{ inputs.applicationName }} --template-file ./main.bicep
