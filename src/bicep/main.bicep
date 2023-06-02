@@ -1,17 +1,23 @@
-param storageName string = 'stbicepcac'
+@description('The location into which your Azure resources should be deployed.')
 param location string = 'centralindia'
-param skuname string = 'Standard_LRS'
-param stgkind string = 'StorageV2'
+@description('Select the type of environment you want to provision. Allowed values are development, Production and Test.')
+@allowed([
+  'pd'
+  'te'
+  'de'
+])
+param environmentType string
+param project string
+param subscriptionID string = '001f528c-7b4f-45f0-b4c5-50381e79f4cc'
 
-resource storageaccount 'Microsoft.Storage/storageAccounts@2022-09-01' = {
-  name: storageName
-  location: location
-  sku: {
-    name: skuname
-  }
-  kind: stgkind
-  properties: {
-    minimumTlsVersion: 'TLS1_2'
-    allowBlobPublicAccess: true
+// Define the names for resources.
+
+module resourceGroup '../../modules/rg/rg.bicep' = {
+  scope: subscription(subscriptionID)
+  name: 'rg-${project}-${environmentType}-cac'
+  params: {
+    environmentType: environmentType
+    project: project
+    location: location
   }
 }
