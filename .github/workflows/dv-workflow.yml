@@ -1,0 +1,24 @@
+# This is a Data Viewer Project
+
+name: DV Project
+
+on: 
+    push:
+      branches: 
+        - main
+    workflow_dispatch:
+
+
+jobs:
+  lint: 
+    uses: ./.github/workflows/lint.yml
+
+    # Deploy to the test environment.
+  deploy-test:
+    uses: ./.github/workflows/dv-deploy.yml
+    needs: lint
+    with:
+      environmentType: de
+      project: dv
+    secrets:
+        AZURE_SPN: ${{ secrets.AZURE_SPN_CREDENTIAL }}

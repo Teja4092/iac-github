@@ -1,0 +1,33 @@
+name: dv-deploy
+
+on:
+  workflow_call:
+    inputs:
+      environmentType:
+        required: true
+        type: string
+      project:
+        required: true
+        type: string
+    secrets:
+      AZURE_SPN:
+        required: true
+jobs:
+  deploy:
+    environment: ${{ inputs.environmentType }}
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Azure Login
+      uses: Azure/login@v1.4.6
+      with:
+        creds: ${{ secrets.AZURE_SPN }}
+    - uses: azure/arm-deploy@v1
+      id: deploy
+      name: Deploy Bicep file
+      with:
+        failOnStdErr: false
+        deploymentName: ${{ github.run_number }}
+        template: ./deploy/main.bicep
+        parameters: >
+           environmentType=${{ inputs.environmentType }}
