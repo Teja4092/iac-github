@@ -21,5 +21,7 @@ module newRG '../../modules/rg/rg.bicep' = {
   params: {
     resourcegroupname: resourcegroupname
     location: location
+    environmentType: environmentType
+    project : project
   }
 }
