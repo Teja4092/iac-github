@@ -15,12 +15,13 @@ jobs:
     uses: ./.github/workflows/lint.yml
 
     # Deploy to the test environment.
-  ddeploy-test:
+  deploy-test:
     uses: ./.github/workflows/dv-deploy.yml
     needs: lint
     with:
       environmentType: de
+      project: dv
+      location: centralindia
       resourceGroupName: rg-dv-de-cac
     secrets:
-      AZURE_SPN: ${{ secrets.AZURE_SPN_CREDENTIAL }}
-    
+        AZURE_SPN: ${{ secrets.AZURE_SPN_CREDENTIAL }}
