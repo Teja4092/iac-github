@@ -1,4 +1,3 @@
-targetScope = 'subscription'
 @description('The location into which your Azure resources should be deployed.')
 param location string
 @description('Select the type of environment you want to provision. Allowed values are development, Production and Test.')
