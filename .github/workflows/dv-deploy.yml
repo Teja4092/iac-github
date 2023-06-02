@@ -9,9 +9,14 @@ on:
       project:
         required: true
         type: string
+      location:
+        required: true
+        type: string
     secrets:
       AZURE_SPN:
         required: true
+    
+        
 jobs:
   deploy:
     environment: ${{ inputs.environmentType }}
@@ -31,3 +36,5 @@ jobs:
         template: ./deploy/main.bicep
         parameters: >
            environmentType=${{ inputs.environmentType }}
+           project=${{ inputs.project }}
+           location=${{ inputs.location }}
