@@ -3,10 +3,6 @@
 name: DV Project
 
 on: 
-    push:
-      branches: 
-        - main
-        - feature/dvproject
     workflow_dispatch:
 
 
