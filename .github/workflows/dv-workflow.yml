@@ -2,8 +2,12 @@
 
 name: DV Project
 
-on:
-  workflow_dispatch:
+on: 
+    push:
+      branches: 
+        - main
+        - feature/dvproject
+    workflow_dispatch:
 
 
 jobs:
