@@ -22,6 +22,6 @@ jobs:
       environmentType: de
       project: dv
       location: centralindia
-      resourceGroupName: rg-dv-de-cac
+      # resourceGroupName: rg-dv-de-cac
     secrets:
         AZURE_SPN: ${{ secrets.AZURE_SPN_CREDENTIAL }}

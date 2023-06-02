@@ -37,7 +37,7 @@ jobs:
       with:
         failOnStdErr: false
         deploymentName: ${{ github.run_number }}
-        resourceGroupName: ${{ inputs.resourceGroupName }}
+        # resourceGroupName: ${{ inputs.resourceGroupName }}
         template: src/bicep/main.bicep
         parameters: >
            environmentType=${{ inputs.environmentType }}
