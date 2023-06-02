@@ -3,6 +3,10 @@
 name: DV Project
 
 on: 
+  push:
+    branches:
+      - main
+      - feature/dvproject
   workflow_dispatch:
 
 
@@ -15,7 +19,7 @@ jobs:
     uses: ./.github/workflows/dv-deploy.yml
     needs: lint
     with:
-      environmentType: Test
+      environmentType: de
       resourceGroupName: rg-dv-de-cac
     secrets:
       AZURE_SPN: ${{ secrets.AZURE_SPN_CREDENTIAL }}
