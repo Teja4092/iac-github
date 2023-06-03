@@ -65,7 +65,7 @@ jobs:
             # Specify the Id for the Management Group, only required for Management Group Deployments.
             managementGroupId: # optional
             # Provide the target region, only required for management Group or Subscription deployments.
-            region: # optional
+            region: ${{ inputs.location }}
             # Provide the name of a resource group, only required for resource Group deployments.
             resourceGroupName: # optional
             # Specify the path or URL to the Azure Resource Manager template.
