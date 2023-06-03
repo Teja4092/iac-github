@@ -1,27 +1,50 @@
-name: DV-Deployment-2
+# This is a basic workflow to help you get started with Actions
+
+name: CI
 
 # Controls when the workflow will run
 on:
   # Triggers the workflow on push or pull request events but only for the "main" branch
   push:
-        branches:
-          - main
-          - feature/dvproject-2
+    branches:
+      - main
+      - feature/dvproject-2
 
+  # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
+  # This workflow contains a single job called "build"
+  build:
+    # The type of runner that the job will run on
+    runs-on: windows-latest
+
+    steps:
+
+      - uses: actions/checkout@v2
+      - name: Azure Login
+        uses: Azure/login@v1.4.6
+        with:
+          # Paste output of `az ad sp create-for-rbac` as value of secret variable: AZURE_CREDENTIALS
+          creds: ${{ secrets.AZURE_SPN_CREDENTIAL }}
+          # ClientId of the Azure Service principal created.
+      - name: Lint
+        working-directory: '${{github.workspace}}/src/bicep'
+        run: |
+            az bicep build --file ./main.bicep
+      - name: Validate
+        working-directory: '${{github.workspace}}/src/bicep'
+        run: |
+          az deployment sub create --what-if --location centralindia --template-file ./main.bicep
+      
   deploy:
     
     name: 'Bicep Deployment'
     # The type of runner that the job will run on
     runs-on: windows-latest
+    needs: [build]
     steps:
-      - name: Lint
-        working-directory: '${{github.workspace}}/src/bicep'
-        run: |
-            az bicep build --file ./main.bicep
 
       - uses: actions/checkout@v2
       - name: Azure Login
@@ -35,4 +58,4 @@ jobs:
       - name: az bicep deploy
         working-directory: '${{github.workspace}}/src/bicep'
         run: |
-          az deployment sub create --location canadacentral --template-file ./main.bicep
+            az deployment sub create  --location centralindia --template-file ./main.bicep
