@@ -1,0 +1,36 @@
+name: DV-Deployment-2
+
+# Controls when the workflow will run
+on:
+  # Triggers the workflow on push or pull request events but only for the "main" branch
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+  workflow_dispatch:
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  deploy:
+    
+    name: 'Bicep Deployment'
+    # The type of runner that the job will run on
+    runs-on: windows-latest
+    steps:
+      - name: Lint
+        run: |
+            az bicep build --file src/bicep/main.bicep
+
+      - uses: actions/checkout@v2
+      - name: Azure Login
+        uses: Azure/login@v1.4.6
+        with:
+          # Paste output of `az ad sp create-for-rbac` as value of secret variable: AZURE_CREDENTIALS
+          creds: ${{ secrets.AZURE_SPN_CREDENTIAL }}
+          # ClientId of the Azure Service principal created.
+
+
+      - name: az bicep deploy
+        run: |
+          az deployment sub create --location canadacentral --template-file src/bicep/main.bicep
