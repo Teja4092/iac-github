@@ -7,8 +7,8 @@ param location string = 'centralindia'
   'te'
   'de'
 ])
-param environmentType string
-param project string
+param environmentType string = 'de'
+param project string = 'dv'
 param subscriptionID string = '001f528c-7b4f-45f0-b4c5-50381e79f4cc'
 param resourcegroupname string = 'rg-${project}-${environmentType}-cin'
 @description('Name of the storage account')
