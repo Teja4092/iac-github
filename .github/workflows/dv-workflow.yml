@@ -1,4 +1,4 @@
-name: deploy-dv-projecct
+name: iac-dv-release
 concurrency: dv-project
 
 on: 
@@ -14,7 +14,7 @@ jobs:
     uses: ./.github/workflows/dv-deploy.yml
     with:
       environmentType: de
-      location: centraindia
+      location: centralindia
       project: dv
     secrets:
       AZURE_SPN: ${{ secrets.AZURE_SPN_CREDENTIAL }}
