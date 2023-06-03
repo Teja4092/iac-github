@@ -1,0 +1,20 @@
+name: deploy-dv-projecct
+concurrency: dv-project
+
+on: 
+  push:
+    branches: 
+      - main
+      - feature/dvproject-2
+  workflow_dispatch:
+
+jobs:
+  # Deploy to the dev environment.
+  deploy-test:
+    uses: ./.github/workflows/dv-deploy.yml
+    with:
+      environmentType: de
+      location: centraindia
+      project: dv
+    secrets:
+      AZURE_SPN: ${{ secrets.AZURE_SPN_CREDENTIAL }}

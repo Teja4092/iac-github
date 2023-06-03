@@ -1,18 +1,20 @@
-# This is a basic workflow to help you get started with Actions
+name: deploy
 
-name: CI
-
-# Controls when the workflow will run
 on:
-  # Triggers the workflow on push or pull request events but only for the "main" branch
-  push:
-    branches:
-      - main
-      - feature/dvproject-2
-
-  # Allows you to run this workflow manually from the Actions tab
-  workflow_dispatch:
-
+  workflow_call:
+    inputs:
+      environmentType:
+        required: true
+        type: string
+      location:
+        required: true
+        type: string
+      project:
+        required: true
+        type: string
+    secrets:
+      AZURE_SPN:
+        required: true
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   # This workflow contains a single job called "build"
@@ -36,7 +38,7 @@ jobs:
       - name: Validate
         working-directory: '${{github.workspace}}/src/bicep'
         run: |
-          az deployment sub create --what-if --location centralindia --template-file ./main.bicep
+          az deployment sub create --what-if --location ${{ inputs.location }} --template-file ./main.bicep
       
   deploy:
     
@@ -53,9 +55,41 @@ jobs:
           # Paste output of `az ad sp create-for-rbac` as value of secret variable: AZURE_CREDENTIALS
           creds: ${{ secrets.AZURE_SPN_CREDENTIAL }}
           # ClientId of the Azure Service principal created.
+      - name: Deploy Azure Resource Manager (ARM) Template
+        uses: Azure/arm-deploy@v1.0.9
+        with:
+            # Provide the scope of the deployment. Valid values are: 'resourcegroup', 'managementgroup', 'subscription'
+            scope: subscription
+            # Override the Subscription Id set by Azure Login.
+            subscriptionId: # optional
+            # Specify the Id for the Management Group, only required for Management Group Deployments.
+            managementGroupId: # optional
+            # Provide the target region, only required for management Group or Subscription deployments.
+            region: # optional
+            # Provide the name of a resource group, only required for resource Group deployments.
+            resourceGroupName: # optional
+            # Specify the path or URL to the Azure Resource Manager template.
+            template: src/deploy/main.bicep
+            # Incremental (only add resources to resource group) or Complete (remove extra resources from resource group) or Validate (only validates the template).
+            deploymentMode: # optional
+            # Specifies the name of the resource group deployment to create.
+            deploymentName: # optional
+            # Supply deployment parameter values.
+            parameters: >
+                environmentType=${{ inputs.environmentType }}
+                location=${{ inputs.location }}
+                project=${{ inputs.project }}
+    #   - uses: azure/arm-deploy@v1
+    #     id: deploy
+    #     name: Deploy Bicep file
+    #     with:
+    #         failOnStdErr: false
+    #         deploymentName: ${{ github.run_number }}
+    #         template: src/deploy/main.bicep
+    #         parameters: >
+    #             environmentType=${{ inputs.environmentType }}
 
-
-      - name: az bicep deploy
-        working-directory: '${{github.workspace}}/src/bicep'
-        run: |
-            az deployment sub create  --location centralindia --template-file ./main.bicep
+    #   - name: az bicep deploy
+    #     working-directory: '${{github.workspace}}/src/bicep'
+    #     run: |
+    #         az deployment sub create  --location ${{ inputs.location }} --template-file ./main.bicep
