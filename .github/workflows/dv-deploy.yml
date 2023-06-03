@@ -19,8 +19,9 @@ jobs:
     runs-on: windows-latest
     steps:
       - name: Lint
+        working-directory: '${{github.workspace}}/src/bicep'
         run: |
-            az bicep build --file src/bicep/main.bicep
+            az bicep build --file ./main.bicep
 
       - uses: actions/checkout@v2
       - name: Azure Login
@@ -32,5 +33,6 @@ jobs:
 
 
       - name: az bicep deploy
+        working-directory: '${{github.workspace}}/src/bicep'
         run: |
-          az deployment sub create --location canadacentral --template-file src/bicep/main.bicep
+          az deployment sub create --location canadacentral --template-file ./main.bicep
