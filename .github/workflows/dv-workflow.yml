@@ -25,6 +25,7 @@ jobs:
   # Deploy to the dev environment.
   deploy-de:
     uses: ./.github/workflows/dv-deploy.yml
+    needs: build
     with:
       environmentType: de
       location: centralindia
