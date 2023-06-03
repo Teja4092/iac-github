@@ -9,6 +9,19 @@ on:
   workflow_dispatch:
 
 jobs:
+  build:
+
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Azure Login
+        uses: Azure/login@v1.4.6
+        with:
+          creds: ${{ secrets.AZURE_SPN_CREDENTIAL }}
+      - name: Lint
+        working-directory: '${{github.workspace}}/src/bicep'
+        run: |
+            az bicep build --file ./main.bicep
   # Deploy to the dev environment.
   deploy-de:
     uses: ./.github/workflows/dv-deploy.yml

@@ -16,30 +16,11 @@ on:
       AZURE_SPN:
         required: true
 jobs:
-
-  build:
-
-    runs-on: windows-latest
-    steps:
-      - uses: actions/checkout@v2
-      - name: Azure Login
-        uses: Azure/login@v1.4.6
-        with:
-          creds: ${{ secrets.AZURE_SPN }}
-      - name: Lint
-        working-directory: '${{github.workspace}}/src/bicep'
-        run: |
-            az bicep build --file ./main.bicep
-      - name: Validate
-        working-directory: '${{github.workspace}}/src/bicep'
-        run: |
-          az deployment sub create --what-if --location ${{ inputs.location }} --template-file ./main.bicep
       
   deploy:
-    
+
     name: 'Bicep Deployment'
     runs-on: windows-latest
-    needs: [build]
     steps:
 
       - uses: actions/checkout@v2
