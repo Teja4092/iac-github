@@ -69,7 +69,7 @@ jobs:
             # Provide the name of a resource group, only required for resource Group deployments.
             resourceGroupName: # optional
             # Specify the path or URL to the Azure Resource Manager template.
-            template: src/deploy/main.bicep
+            template: ./src/bicep/main.bicep
             # Incremental (only add resources to resource group) or Complete (remove extra resources from resource group) or Validate (only validates the template).
             deploymentMode: # optional
             # Specifies the name of the resource group deployment to create.
