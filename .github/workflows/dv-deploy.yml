@@ -12,9 +12,6 @@ on:
       location:
         required: true
         type: string
-      resourceGroupName:
-        required: true
-        type: string
     secrets:
       AZURE_SPN:
         required: true
@@ -37,7 +34,6 @@ jobs:
       with:
         failOnStdErr: false
         deploymentName: ${{ github.run_number }}
-        # resourceGroupName: ${{ inputs.resourceGroupName }}
         template: src/bicep/main.bicep
         parameters: >
            environmentType=${{ inputs.environmentType }}
