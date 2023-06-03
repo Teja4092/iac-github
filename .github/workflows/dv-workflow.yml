@@ -10,10 +10,19 @@ on:
 
 jobs:
   # Deploy to the dev environment.
-  deploy-test:
+  deploy-de:
     uses: ./.github/workflows/dv-deploy.yml
     with:
       environmentType: de
+      location: centralindia
+      project: dv
+    secrets:
+      AZURE_SPN: ${{ secrets.AZURE_SPN_CREDENTIAL }}
+
+  deploy-te:
+    uses: ./.github/workflows/dv-deploy.yml
+    with:
+      environmentType: te
       location: centralindia
       project: dv
     secrets:
