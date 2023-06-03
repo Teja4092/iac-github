@@ -21,6 +21,7 @@ jobs:
 
   deploy-te:
     uses: ./.github/workflows/dv-deploy.yml
+    needs: deploy-de
     with:
       environmentType: te
       location: centralindia
