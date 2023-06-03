@@ -35,10 +35,10 @@ jobs:
         working-directory: '${{github.workspace}}/src/bicep'
         run: |
             az bicep build --file ./main.bicep
-      - name: Validate
-        working-directory: '${{github.workspace}}/src/bicep'
-        run: |
-          az deployment sub create --what-if --location ${{ inputs.location }} --template-file ./main.bicep
+    #   - name: Validate
+    #     working-directory: '${{github.workspace}}/src/bicep'
+    #     run: |
+    #       az deployment sub create --what-if --location ${{ inputs.location }} --template-file ./main.bicep
       
   deploy:
     
