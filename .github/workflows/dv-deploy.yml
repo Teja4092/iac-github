@@ -3,7 +3,7 @@ name: deploy
 on:
   workflow_call:
     inputs:
-      environmentType:
+      environment:
         required: true
         type: string
       location:
@@ -16,39 +16,13 @@ on:
       AZURE_SPN:
         required: true
 jobs:
-  validate:
-    runs-on: ubuntu-latest
-    steps: 
-    - uses: actions/checkout@v2
-    - uses: azure/login@v1
-      name: Sign in to Azure
-      with:
-        creds: ${{ secrets.AZURE_SPN }}
-    - if: inputs.environmentType == 'de'
-      uses: azure/arm-deploy@v1
-      name: Run preflight validation
-      with:
-        deploymentName: ${{ github.run_number }}
-        resourceGroupName: rg-${{ inputs.project }}-${{ inputs.environmentType }}-cin
-        template: ./src/bicep/main.bicep
-        parameters: >
-                environmentType=${{ inputs.environmentType }}
-                location=${{ inputs.location }}
-                project=${{ inputs.project }}
-        deploymentMode: Validate
+      
   deploy:
-    needs: validate
+
     name: 'Bicep Deployment'
     runs-on: windows-latest
     steps:
-      - name: Download a Build Artifact
-        uses: actions/download-artifact@v2.1.1
-        with:
-          # Artifact name
-          name: drop # optional
-      - name: Test Artifact download
-        run: ls -R
-      
+
       - uses: actions/checkout@v2
       - name: Azure Login
         uses: Azure/login@v1.4.6
@@ -61,6 +35,6 @@ jobs:
             region: ${{ inputs.location }}
             template: ./src/bicep/main.bicep
             parameters: >
-                environmentType=${{ inputs.environmentType }}
+                environment=${{ inputs.environment }}
                 location=${{ inputs.location }}
                 project=${{ inputs.project }}

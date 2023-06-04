@@ -7,12 +7,12 @@ param location string = 'centralindia'
   'te'
   'de'
 ])
-param environmentType string
+param environment string
 param project string
 param subscriptionID string = '001f528c-7b4f-45f0-b4c5-50381e79f4cc'
-param resourcegroupname string = 'rg-${project}-${environmentType}-cin'
+param resourcegroupname string = 'rg-${project}-${environment}-cin'
 @description('Name of the storage account')
-param storageName string = 'st${project}${environmentType}cin'
+param storageName string = 'st${project}${environment}cin'
 
 output resourcegroupname string = resourcegroupname
 output storagename string = storageName
@@ -32,7 +32,7 @@ module newRG '../../modules/rg/rg.bicep' = {
   params: {
     resourcegroupname: resourcegroupname
     location: location
-    environmentType: environmentType
+    environmentType: environment
     project : project
   }
 }

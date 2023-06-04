@@ -1,4 +1,4 @@
-name: iac-dv-release
+name: iac-dv-release-2
 concurrency: dv-project
 
 on: 
@@ -34,7 +34,7 @@ jobs:
     uses: ./.github/workflows/dv-deploy.yml
     needs: build
     with:
-      environmentType: de
+      environment: de
       location: centralindia
       project: dv
     secrets:
@@ -44,7 +44,7 @@ jobs:
     uses: ./.github/workflows/dv-deploy.yml
     needs: deploy-de
     with:
-      environmentType: te
+      environment: te
       location: centralindia
       project: dv
     secrets:
