@@ -37,7 +37,7 @@ jobs:
                 project=${{ inputs.project }}
         deploymentMode: Validate
   deploy:
-
+    needs: validate
     name: 'Bicep Deployment'
     runs-on: windows-latest
     steps:
