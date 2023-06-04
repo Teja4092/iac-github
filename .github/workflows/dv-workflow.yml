@@ -22,6 +22,13 @@ jobs:
         working-directory: '${{github.workspace}}/src/bicep'
         run: |
             az bicep build --file ./main.bicep
+      - name: Upload a Build Artifact
+        uses: actions/upload-artifact@v3.1.2
+        with:
+          # Artifact name
+          name: drop 
+          path: '${{github.workspace}}/*'
+
   # Deploy to the dev environment.
   deploy-de:
     uses: ./.github/workflows/dv-deploy.yml
