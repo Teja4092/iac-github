@@ -19,8 +19,9 @@ jobs:
       
   deploy:
 
-    name: 'Bicep Deployment'
+    name: '${{ inputs.environment }}-Release'
     runs-on: windows-latest
+    environment: '${{ inputs.environment }}'
     steps:
 
       - uses: actions/checkout@v2
