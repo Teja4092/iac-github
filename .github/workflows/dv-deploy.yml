@@ -24,7 +24,7 @@ jobs:
       name: Sign in to Azure
       with:
         creds: ${{ secrets.AZURE_SPN }}
-    - if: inputs.environmentType != 'de'
+    - if: inputs.environmentType == 'de'
       uses: azure/arm-deploy@v1
       name: Run preflight validation
       with:
