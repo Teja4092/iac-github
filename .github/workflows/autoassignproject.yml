@@ -2,9 +2,11 @@ name: Add bugs to bugs project
 
 on:
   issues:
-    types:
-      - opened
-      - synchronize
+    types: [opened, labeled]
+  pull_request:
+    types: [opened, labeled , synchronize]
+  issue_comment:
+    types: [created]
 
 jobs:
   add-to-project:
