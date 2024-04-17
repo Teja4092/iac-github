@@ -30,4 +30,4 @@ jobs:
         echo "PR_ID: $PR_ID"
         gh api projects/columns/12/cards -X POST -F "content_id=$PR_ID" -F "content_type=PullRequest"
       env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        GITHUB_TOKEN: ${{ secrets.MY_GITHUB_TOKEN }}
