@@ -17,7 +17,7 @@ jobs:
     steps:
     - name: Assign NEW issues and NEW pull requests to project 4
       uses: srggrs/assign-one-project-github-action@1.2.1
-      if: github.event.action == 'opened'
+      if: github.event.action == 'opened' || 'synchronize'
       with:
         project: 'https://github.com/users/Teja4092/projects/4'
 
