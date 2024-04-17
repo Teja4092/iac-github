@@ -17,7 +17,7 @@ jobs:
         with:
           # You can target a project in a different organization
           # to the issue
-          project-url: https://github.com/orgs/iac-github/projects/4
+          project-url: https://github.com/users/Teja4092/projects/4
           github-token: ${{ secrets.MY_GITHUB_TOKEN }}
           labeled: bug, needs-triage
           label-operator: OR
