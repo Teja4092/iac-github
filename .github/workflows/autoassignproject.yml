@@ -1,0 +1,33 @@
+name: Assign Project to PR
+
+on:
+  pull_request:
+    types:
+      - opened
+      - synchronize
+
+jobs:
+  assign_project:
+    runs-on: ubuntu-latest
+    permissions:
+        id-token: write
+        contents: write
+        issues: read
+        checks: write
+        pull-requests: write
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Assign Project to PR
+      run: |
+        PR_NUMBER=$(jq --raw-output .number "$GITHUB_EVENT_PATH")
+        echo "PR_NUMBER: $PR_NUMBER"
+        PROJECT_ID=3
+        echo "PROJECT_ID: $PROJECT_ID"
+        PR_ID=$(gh api repos/Teja4092/iac-github/pulls/$PR_NUMBER --jq '.id')
+        echo "PR_ID: $PR_ID"
+        gh api projects/columns/12/cards -X POST -F "content_id=$PR_ID" -F "content_type=PullRequest"
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
