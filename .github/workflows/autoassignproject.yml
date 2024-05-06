@@ -19,5 +19,5 @@ jobs:
           # to the issue
           project-url: https://github.com/users/Teja4092/projects/4
           github-token: ${{ secrets.MY_GITHUB_TOKEN }}
-          labeled: bug, needs-triage
+          labeled: bug, needs-triage, devops
           label-operator: OR
