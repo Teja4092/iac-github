@@ -21,7 +21,7 @@ jobs:
       - name: Set Dynamic Matrix
         id: setmatrix
         run: |
-           matrixStringifiedObject="{\"include\":[{\"run\":\"BL_14\"},{\"run\":\"CY_16\"}]}"
+           matrixStringifiedObject="{\"include\":[{\"run\":\"BL_14"\"},{\"run\":\"CY_16\"}]}"
            echo "name=matrix::$matrixStringifiedObject" >> $GITHUB_OUTPUT
   job2:
     needs: job1
