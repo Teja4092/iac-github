@@ -1,0 +1,38 @@
+name: Build Matrix Example
+
+on:
+  push:
+    branches:
+      - main
+      - feature/
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    
+    strategy:
+      matrix:
+        os: ${{fromJson(needs.read-input.outputs.inputs).os}}
+        node-version: ${{fromJson(needs.read-input.outputs.inputs).node_version}}
+        # Add other parameters as needed
+        
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+      
+    - name: Read inputs from JSON
+      id: read-input
+      run: echo "::set-output name=inputs::$(cat build-config.json)"
+      
+    - name: Set up Node.js
+      uses: actions/setup-node@v2
+      with:
+        node-version: ${{ matrix.node-version }}
+        
+    - name: Print inputs
+      run: |
+        echo "Operating System: ${{ matrix.os }}"
+        echo "Node.js Version: ${{ matrix.node-version }}"
+        # Print other inputs as needed
+        
+    # Add more steps for your build process here
