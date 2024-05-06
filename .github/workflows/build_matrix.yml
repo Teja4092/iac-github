@@ -21,8 +21,8 @@ jobs:
       - name: Set Dynamic Matrix
         id: setmatrix
         run: |
-           matrixStringifiedObject="{\"include\":[{\"run\":\"BL_14"\"},{\"run\":\"CY_16\"}]}"
-           echo "name=matrix::$matrixStringifiedObject" >> $GITHUB_OUTPUT
+           matrixStringifiedObject="{\"include\":[{\"run\":\"run1\"},{\"run\":\"run2\"}]}"
+           echo "::set-output name=matrix::$matrixStringifiedObject"
   job2:
     needs: job1
     runs-on: ubuntu-latest
