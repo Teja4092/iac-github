@@ -1,0 +1,7 @@
+root:
+  - "*"
+AnyChange:
+  - "**/*"
+Documentation:
+  - docs/**/*
+  - docs/*
