@@ -59,7 +59,7 @@ jobs:
     runs-on: windows-latest
     needs: Dev
     environment:
-        name: dev
+        name: test
     steps:
       - name: Run a one-line script
         run: echo Hello, world!
