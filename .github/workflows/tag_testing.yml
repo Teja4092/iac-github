@@ -41,7 +41,7 @@ jobs:
     # The type of runner that the job will run on
     runs-on: windows-latest
     needs: [build]
-    if: contains(github.head_ref, 'feature') && contains(github.head_ref, 'main')
+    if: contains(github.head_ref, 'feature')
     environment:
         name: dev
     steps:
@@ -55,7 +55,7 @@ jobs:
             echo test, and deploy your project.
   Test:
     name: 'Test_release'
-    if: contains(github.head_ref, 'feature') || contains(github.head_ref, 'main')
+    # if: contains(github.head_ref, 'feature') || contains(github.head_ref, 'main')
     # The type of runner that the job will run on
     runs-on: windows-latest
     needs: Dev
