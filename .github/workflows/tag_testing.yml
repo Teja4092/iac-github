@@ -58,7 +58,7 @@ jobs:
     # if: contains(github.head_ref, 'feature') || contains(github.head_ref, 'main')
     # The type of runner that the job will run on
     runs-on: windows-latest
-    needs: Dev
+    # needs: Dev
     environment:
         name: test
     steps:
