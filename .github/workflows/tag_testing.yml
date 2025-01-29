@@ -8,7 +8,7 @@ on:
   push:
     branches: [ "main", "feature/*" ]
   pull_request:
-    branches: [ "main" ]
+    branches: [ "main" , "feature/*" ]
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
@@ -41,6 +41,7 @@ jobs:
     # The type of runner that the job will run on
     runs-on: windows-latest
     needs: [build]
+    if: contains(github.head_ref, 'feature') || contains(github.head_ref, 'main') || contains(github.head_ref, 'release')
     environment:
         name: dev
     steps:
@@ -54,10 +55,10 @@ jobs:
             echo test, and deploy your project.
   Test:
     name: 'Test_release'
-    if: github.ref == 'refs/heads/main' || startsWith(github.ref, 'refs/tags/v')
+    if: contains(github.head_ref, 'refs/tags/v') || contains(github.head_ref, 'main')
     # The type of runner that the job will run on
     runs-on: windows-latest
-    needs: Dev
+    # needs: Dev
     environment:
         name: test
     steps:
