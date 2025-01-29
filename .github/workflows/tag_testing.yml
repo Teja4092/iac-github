@@ -1,4 +1,4 @@
-# This is a basic workflow to help you get started with Actions
+# This is a basic workflow to help you get started with Actions ##
 
 name: Tags
 
@@ -41,7 +41,7 @@ jobs:
     # The type of runner that the job will run on
     runs-on: windows-latest
     needs: [build]
-    if: contains(github.head_ref, 'feature') || contains(github.head_ref, 'main') || contains(github.head_ref, 'release')
+    if: contains(github.head_ref, 'feature') || contains(github.head_ref, 'main') || contains(github.head_ref, 'release') || contains(github.head_ref, 'v/')
     environment:
         name: dev
     steps:
@@ -55,10 +55,10 @@ jobs:
             echo test, and deploy your project.
   Test:
     name: 'Test_release'
-    if: contains(github.head_ref, 'refs/tags/v') || contains(github.head_ref, 'main')
+    if: contains(github.head_ref, 'main') || contains(github.head_ref, 'release')
     # The type of runner that the job will run on
     runs-on: windows-latest
-    # needs: Dev
+    needs: build
     environment:
         name: test
     steps:
