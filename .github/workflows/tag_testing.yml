@@ -41,7 +41,7 @@ jobs:
     # The type of runner that the job will run on
     runs-on: windows-latest
     needs: [build]
-    if: contains(github.head_ref, 'feature') || contains(github.head_ref, 'main')
+    if: contains(github.head_ref, 'feature') || contains(github.head_ref, 'main') || contains(github.head_ref, 'release')
     environment:
         name: dev
     steps:
